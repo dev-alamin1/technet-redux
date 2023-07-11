@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import type {PayloadAction} from '@reduxjs/toolkit'
 
 interface ICart{
-    products:IProduct[] //cart is collection of products
+    products:IProduct[] 
+    //!cart is a collection of products
+    
 }
 
 const initialState :ICart={
