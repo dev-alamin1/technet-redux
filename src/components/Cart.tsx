@@ -17,7 +17,7 @@ import { addtoCart, removeOne ,removeFromCart} from '@/redux/features/cart/cartS
 
 export default function Cart() {
   //! Product from store 
-   const {products,total} = useAppSelector(state=>state.cart)
+   const {products,totalPrice} = useAppSelector(state=>state.cart)
    const dispatch = useAppDispatch();
 
 
@@ -32,7 +32,7 @@ export default function Cart() {
       <SheetContent className="overflow-auto relative">
         <SheetHeader>
           <SheetTitle>Cart</SheetTitle>
-          <h1>Total: {total.toFixed(2)}</h1>
+          <h1>Total: {totalPrice.toFixed(2)}</h1>
         </SheetHeader>
         <div className="space-y-5">
           {products.map((product) => (
@@ -47,7 +47,7 @@ export default function Cart() {
                 <h1 className="text-2xl self-center">{product?.name}</h1>
                 <p>Quantity: {product.quantity}</p>
                 <p className="text-xl">
-                  Total Price: {(product.price * product.quantity!).toFixed(2)}{' '}
+                   Price: {(product.price * product.quantity!).toFixed(2)}{' '}
                   $
                 </p>
               </div>

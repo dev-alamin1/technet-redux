@@ -2,16 +2,15 @@ import { IProduct } from "@/types/globalTypes";
 import { createSlice } from "@reduxjs/toolkit";
 import type {PayloadAction} from '@reduxjs/toolkit'
 
-interface ICart{
-    products:IProduct[] ;
-    total:number;
-    //!cart is a collection of products
-    
+interface ICart {
+  products: IProduct[];
+  totalPrice: number;
+  //!cart is a collection of products
 }
 
 const initialState :ICart={
     products:[],
-    total:0
+    totalPrice:0
 }
 
 const cartSlice = createSlice({
@@ -30,11 +29,13 @@ const cartSlice = createSlice({
 
       if (existed) {
         existed.quantity = existed.quantity! + 1; //! quantity er por what sign nirdes kore, ami sure aci ekhane undefined hobe na
-       
+
+        state.totalPrice += existed.price; //total price er sathe existed product er price jog hobe
+
       } else {
         state.products.push({ ...action.payload, quantity: 1 });
         //singlgle vabe product add korle, product add hobe and tar sathe quantity 1 set hobe
-    
+          state.totalPrice += action.payload.price // payload theke pawa product er price jog hobe , total price er sathe 
       }
     },
     
@@ -48,16 +49,29 @@ const cartSlice = createSlice({
       if (product && product.quantity!>1) {
         product.quantity! -= 1;
 
+        state.totalPrice -= product.price;
+
       }else{
         //! minus korte korte 1 er kom hole product e remove hoye jabe
          state.products = state.products.filter(
            (prod) => prod._id !== action.payload._id
          );
+
+         state.totalPrice -= action.payload.price * action.payload.quantity!;
       }
     },
 
     removeFromCart:(state,action:PayloadAction<IProduct>)=>{
-        state.products = state.products.filter(prod=>prod._id !== action.payload._id);
+      state.products = state.products.filter(
+        (prod) => prod._id !== action.payload._id
+      );
+
+      //jokhon product akbarei remove kora hobe , tokhon sudhu setir price bad dile
+      // aktir price kome jabe . but amra je product ti remove korbo, tar quantiy onusare
+      // price gun hobe .. then sei price totalPrice theke kome jabe
+      //!state.totalPrice -= action.payload.price ---- evabe kora jabe na 
+
+      state.totalPrice -= action.payload.price * action.payload.quantity!;
     }
   },
 });
