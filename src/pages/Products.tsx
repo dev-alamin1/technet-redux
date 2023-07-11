@@ -4,7 +4,7 @@ import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
 import { useAppSelector, useAppDispatch} from '@/redux/hooks';
-import { toggle } from '@/redux/features/product/productSlice';
+import { toggle, priceRangeSlide } from '@/redux/features/product/productSlice';
 import { IProduct } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
 
@@ -24,7 +24,10 @@ export default function Products() {
   const dispatch = useAppDispatch();
 
   const handleSlider = (value: number[]) => {
-    console.log(value);
+    // console.log(value[0]);
+    dispatch(priceRangeSlide(value[0]))
+    //! value array hisebe return kore , but sekhane akti matro element thake
+    //! ai karone value[0] deya hoyece, er karone exactly value ti pabe productSlice a
   };
 
   let productsData;
