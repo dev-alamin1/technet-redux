@@ -7,16 +7,20 @@ import { useAppSelector, useAppDispatch} from '@/redux/hooks';
 import { toggle, priceRangeSlide } from '@/redux/features/product/productSlice';
 import { IProduct } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
+import { useGetProductQuery } from '@/redux/api/apiSlice';
 
 
 export default function Products() {
-  const [data, setData] = useState<IProduct[]>([]);
+  // const [data, setData] = useState<IProduct[]>([]);
   
-  useEffect(() => {
-    fetch('./data.json')
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
+  // useEffect(() => {
+  //   fetch('./data.json')
+  //     .then((res) => res.json())
+  //     .then((data) => setData(data));
+  // }, []);
+
+  const {data} = useGetProductQuery(undefined); //!data fetch by rtk query
+
 
   const { toast } = useToast();
 
@@ -33,14 +37,14 @@ export default function Products() {
   let productsData;
 
   if (status) {
-    productsData = data.filter(
-      (item) => item.status === true && item.price < priceRange
+    productsData = data?.data.filter(
+      (item:{status:boolean,price:number}) => item.status === true && item.price < priceRange
     );
   } else if (priceRange > 0) {
-    productsData = data.filter((item) => item.price < priceRange);
+    productsData = data?.data.filter((item:{status:boolean,price:number}) => item.price < priceRange && item.status ===false);
     console.log("else if",productsData)
   } else {
-    productsData = data;
+    productsData = data?.data;
   }
 
   return (
@@ -68,7 +72,7 @@ export default function Products() {
         </div>
       </div>
       <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
-        {productsData?.map((product) => (
+        {productsData?.map((product:IProduct) => (
           <ProductCard product={product} />
         ))}
       </div>
