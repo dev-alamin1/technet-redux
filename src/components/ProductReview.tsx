@@ -14,7 +14,7 @@ const dummyComments = [
 
 
 
-export default function ProductReview({ productId }:{productId:string}) {
+export default function ProductReview({ productId }:{productId:string |undefined}) {
   const [comment, setComment] = useState<string>('');
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
