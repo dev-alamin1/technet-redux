@@ -1,42 +1,42 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
-import { IProduct } from '@/types/globalTypes';
-import { useEffect, useState } from 'react';
+import { useGetSingleProductQuery } from '@/redux/api/apiSlice';
+import { useAppDispatch } from '@/redux/hooks';
+import { addtoCart } from '@/redux/features/cart/cartSlice';
 import { useParams } from 'react-router-dom';
 
 export default function ProductDetails() {
   const { id } = useParams();
+  /*
+    {
+        path: '/product-details/:id',
+        element: <ProductDetails />,
+      }, --- ai route theke id ti use params diye dhora hoyeche
+  */
 
-  //! Temporary code, should be replaced with redux
-  const [data, setData] = useState<IProduct[]>([]);
-  useEffect(() => {
-    fetch('../../public/data.json')
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
+  const {data} = useGetSingleProductQuery(id);
 
-  const product = data?.find((item) => item._id === Number(id));
+  const dispatch = useAppDispatch();
 
-  //! Temporary code ends here
 
   return (
     <>
       <div className="flex max-w-7xl mx-auto items-center border-b border-gray-300">
         <div className="w-[50%]">
-          <img src={product?.image} alt="" />
+          <img src={data?.image} alt="" />
         </div>
         <div className="w-[50%] space-y-3">
-          <h1 className="text-3xl font-semibold">{product?.name}</h1>
-          <p className="text-xl">Rating: {product?.rating}</p>
+          <h1 className="text-3xl font-semibold">{data?.name}</h1>
+          <p className="text-xl">Rating: {data?.rating}</p>
           <ul className="space-y-1 text-lg">
-            {product?.features?.map((feature) => (
+            {data?.features?.map((feature: string) => (
               <li key={feature}>{feature}</li>
             ))}
           </ul>
-          <Button>Add to cart</Button>
+          <Button onClick={() => dispatch(addtoCart(data))}>Add to cart</Button>
         </div>
       </div>
-      <ProductReview />
+      <ProductReview productId={id} />
     </>
   );
 }
