@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000' }),
+  tagTypes:['comments'], //this for refetch comment after add comment
   endpoints: (builder) => ({
     //! rtk query autogen vabe atkti hooks dey, ekhane getProduct ai nam onusare autogen hook debe
     getProduct: builder.query({
@@ -20,10 +21,13 @@ export const api = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags:['comments']
+
     }),
 
     getComment: builder.query({
-      query: (id) => `/comment/${id}`
+      query: (id) => `/comment/${id}`,
+      providesTags:['comments']
     }),
   }),
 });
