@@ -25,6 +25,7 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
 
   const onSubmit = (data: LoginFormInputs) => {
     console.log(data);
+    
   };
 
   return (
