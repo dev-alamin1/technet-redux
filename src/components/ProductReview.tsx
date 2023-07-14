@@ -28,7 +28,7 @@ export default function ProductReview({ productId }:{productId:string |undefined
   // ! as like as const [setComment, {isLoading,error}] = useSetCommentMutation();
 
 
-  const { data } = useGetCommentQuery(productId);
+  const { data } = useGetCommentQuery(productId,{refetchOnMountOrArgChange:true,pollingInterval:5000});
 
   return (
     <div className="max-w-7xl mx-auto mt-5">
