@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { FiSend } from 'react-icons/fi';
-import { useGetCommentQuery, usePostCommentMutation } from '@/redux/api/apiSlice';
+import { useGetCommentQuery, usePostCommentMutation } from '../redux/features/product/productApi';
 
 
 // const dummyComments = [
@@ -28,7 +28,7 @@ export default function ProductReview({ productId }:{productId:string |undefined
   // ! as like as const [setComment, {isLoading,error}] = useSetCommentMutation();
 
 
-  const { data } = useGetCommentQuery(productId,{refetchOnMountOrArgChange:true,pollingInterval:5000});
+  const { data } = useGetCommentQuery(productId,{refetchOnMountOrArgChange:true});
 
   return (
     <div className="max-w-7xl mx-auto mt-5">

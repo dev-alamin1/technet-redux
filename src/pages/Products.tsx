@@ -6,8 +6,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useAppSelector, useAppDispatch} from '@/redux/hooks';
 import { toggle, priceRangeSlide } from '@/redux/features/product/productSlice';
 import { IProduct } from '@/types/globalTypes';
-import { useEffect, useState } from 'react';
-import { useGetProductQuery } from '@/redux/api/apiSlice';
+import { useGetProductQuery } from '../redux/features/product/productApi';
 
 
 export default function Products() {

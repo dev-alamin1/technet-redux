@@ -1,6 +1,6 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
-import { useGetSingleProductQuery } from '@/redux/api/apiSlice';
+import { useGetSingleProductQuery } from '../redux/features/product/productApi';
 import { useAppDispatch } from '@/redux/hooks';
 import { addtoCart } from '@/redux/features/cart/cartSlice';
 import { useParams } from 'react-router-dom';
