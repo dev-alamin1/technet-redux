@@ -4,8 +4,8 @@ import MainLayout from './layouts/MainLayout';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
 import { app } from './lib/firebase.config';
-import { useAppSelector,useAppDispatch } from './redux/hooks';
-import { setUser } from './redux/features/user/userSlice';
+import { useAppDispatch } from './redux/hooks';
+import { setLoading, setUser, } from './redux/features/user/userSlice';
 
 const auth = getAuth(app)
 
@@ -13,16 +13,19 @@ function App() {
 
   const dispatch = useAppDispatch();
 
-  useEffect(()=>{
-    onAuthStateChanged(auth,(user)=>{
-        dispatch(setUser(user?.email));
-        console.log("from auth state change",user?.email)
-    })
-  },[dispatch])
+ useEffect(() => {
+   dispatch(setLoading(true));
 
-  const {user} = useAppSelector(state=>state.user);
+   onAuthStateChanged(auth, (user) => {
+     if (user) {
+       dispatch(setUser(user.email!));
+       dispatch(setLoading(false));
+     } else {
+       dispatch(setLoading(false));
+     }
+   });
+ }, [dispatch]);
 
-  console.log("User from redux store "+user.email)
 
   return (
     <div>
