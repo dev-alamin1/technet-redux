@@ -16,6 +16,7 @@ function App() {
   useEffect(()=>{
     onAuthStateChanged(auth,(user)=>{
         dispatch(setUser(user?.email));
+        console.log("from auth state change",user?.email)
     })
   },[dispatch])
 
