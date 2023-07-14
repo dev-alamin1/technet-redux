@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
 import { useAppDispatch,useAppSelector } from '@/redux/hooks';
 import { loginUser } from '@/redux/features/user/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
@@ -31,6 +31,8 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
      const dispatch = useAppDispatch();
 
      const navigate = useNavigate();
+     const location = useLocation();
+     const from = location.state?.from?.pathname || '/';
 
      const onSubmit = (data: LoginFormInputs) => {
        console.log(data);
@@ -40,7 +42,7 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
 
      useEffect(() => {
        if (user.email && !isLoading) {
-         navigate('/');
+         navigate(from,{replace:true});
        }
      }, [user.email]);
 
